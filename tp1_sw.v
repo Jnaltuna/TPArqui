@@ -15,13 +15,23 @@ module tp1_sw(
 	 
 	 assign led = o_resultado_01;
 	 
+	 //always @(*)
+	 //begin
+	//	led <= o_resultado_01;
+	 //end
+	 
 	 always @ (*)
 	 begin
-		case (buttons)
-		100:	i_dato_a_01 <= switch;
-		010:	i_dato_b_01 <= switch;
-		001:	i_op_01 <= switch;
+		casez (buttons)
+			3'b1?? : i_dato_a_01 <= switch;
+			3'b?1? : i_dato_b_01 <= switch;
+			3'b??1 : i_op_01 <= switch;
 		endcase
+		//case (buttons)
+		//100:	i_dato_a_01 <= switch;
+		//010:	i_dato_b_01 <= switch;
+		//001:	i_op_01 <= switch;
+		//endcase
 	 end
 	 
 	 tp1
