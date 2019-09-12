@@ -1,5 +1,4 @@
 
-# PlanAhead Generated physical constraints 
 
 NET "buttons[0]" LOC = C11;
 NET "buttons[1]" LOC = M4;
@@ -20,4 +19,8 @@ NET "switch[4]" LOC = G3;
 NET "switch[5]" LOC = F3;
 NET "switch[6]" LOC = E2;
 NET "switch[7]" LOC = N3;
-NET "buttons<0>" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "buttons[0]" CLOCK_DEDICATED_ROUTE = FALSE;
+
+# PlanAhead Generated physical constraints 
+
+NET "i_clock" LOC = B8;

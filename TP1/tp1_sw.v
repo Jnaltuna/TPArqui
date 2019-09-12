@@ -1,17 +1,18 @@
 module tp1_sw(
-		input 	wire 		[7:0] switch,
-		input 	wire 		[2:0] buttons,
-		output 	wire 		[7:0] led
+		input 	wire 		signed [7:0] switch,
+		input 	wire 				 [2:0] buttons,
+		input		wire						 i_clock,
+		output 	wire 		signed [7:0] led
 
     );
 	 
 	 localparam LEN_DATO_01 = 8;
 	 localparam LEN_OP_01 = 6;
 	 
-	 reg [7:0] i_dato_a_01 = 0;
-	 reg [7:0] i_dato_b_01 = 0;
+	 reg signed [7:0] i_dato_a_01 = 0;
+	 reg signed [7:0] i_dato_b_01 = 0;
 	 reg [5:0] i_op_01 = 0;
-	 wire [7:0] o_resultado_01;
+	 wire signed [7:0] o_resultado_01;
 	 
 	 assign led = o_resultado_01;
 	 
@@ -20,7 +21,7 @@ module tp1_sw(
 	//	led <= o_resultado_01;
 	 //end
 	 
-	 always @ (*)
+	 always @ (posedge i_clock)
 	 begin
 		casez (buttons)
 			3'b1?? : i_dato_a_01 <= switch;

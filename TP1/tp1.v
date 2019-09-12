@@ -8,8 +8,8 @@ module tp1
   		//input	wire					i_clock,
     	//input 	wire 					i_reset,
    	input 	wire signed	[LEN_DATO-1:0]	i_dato_a,
-    	input	wire signed	[LEN_DATO-1:0]	i_dato_b,
-    	input 	wire		[LEN_OP-1:0]	i_op_code,
+    	input		wire signed	[LEN_DATO-1:0]	i_dato_b,
+    	input 	wire			[LEN_OP-1:0]	i_op_code,
     	output 	wire signed	[LEN_DATO-1:0]	o_resultado
   );
 
@@ -17,7 +17,7 @@ module tp1
   localparam ADD = 6'b100000;
   localparam SUB = 6'b100010;
   localparam AND = 6'b100100;
-  localparam OR	 = 6'b100101;
+  localparam OR  = 6'b100101;
   localparam XOR = 6'b100110;
   localparam SRA = 6'b000011;
   localparam SRL = 6'b000010;
