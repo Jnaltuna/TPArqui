@@ -26,6 +26,85 @@ module uart
 	wire [7:0] tx_fifo_out, rx_data_out;
 	
 	//body
+	//baud rate generator
+	mod_m_counter
+	#(
+		.M											(DVSR		),
+		.N											(DVSR_BIT)
+	)
+	baud_gen_unit
+	(
+		.clk										(i_clk	),
+		.reset									(i_reset	),
+		.q											(			),
+		.max_tick								(tick		)
+	);
+	//Receptor uart
+	uart_rx
+	#(
+		.DBIT										(DBIT		),
+		.SB_TICK									(SB_TICK	)
+	)
+	uart_rx_unit
+	(
+		.i_clk									(i_clk	),
+		.i_reset									(i_reset	),
+		.i_rx										(i_rx		),
+		.i_s_tick								(tick		),
+		.o_rx_done_tick						(rx_done_tick),
+		.o_dout									(rx_data_out)
+	);
+	//fifo rx
+	fifo
+	#(
+		.B											(DBIT		),
+		.W											(FIFO_W	)
+	)
+	fifo_rx_unit
+	(
+		.i_clk									(i_clk	),
+		.i_reset									(i_reset	),
+		.i_rd										(i_rd_uart	),
+		.i_wr										(rx_done_tick),
+		.i_w_data								(w_data_out),
+		.o_empty									(rx_empty),
+		.o_full									(			),
+		.o_r_data								(r_data	)
+	);
+	//fifo tx
+	fifo
+	#(
+		.B(DBIT),
+		.W(FIFO_W)
+	)
+	fifo_tx_unit
+	(
+		.i_clk									(i_clk	),
+		.i_reset									(i_reset	),
+		.i_rd										(tx_done_tick),
+		.i_wr										(wr_uart	),
+		.i_w_data								(w_data	),
+		.o_empty									(tx_empty),
+		.o_full									(tx_full	),
+		.o_r_data								(tx_fifo_out)
+	);	
+	//Transmisor uart
+	uart_tx
+	#(
+		.DBIT										(DBIT		),
+		.SB_TICK									(SB_TICK	)
+	)
+	uart_tx_unit
+	(
+		.i_clk									(i_clk		),
+		.i_reset									(i_reset	),
+		.i_tx_start								(tx_fifo_not_empty),
+		.i_s_tick								(tick		),
+		.i_din									(tx_fifo_out),
+		.o_tx_done_tick						(tx_done_tick),
+		.o_tx										(o_tx		)
+	);
 	
-	//falta codigo, pagina 260
+	assign tx_fifo_not_empty = ~tx_empty;
+	
 endmodule
