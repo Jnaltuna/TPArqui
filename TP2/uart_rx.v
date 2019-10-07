@@ -6,12 +6,12 @@ module uart_rx
 		parameter 				SB_TICK = 16 // # ticks for stop bits
    )
 	(
-		input 	wire 			i_clk,
-		input 	wire 			i_reset,
-		input 	wire 			i_rx,
-		input 	wire 			i_s_tick,
-		output 	reg 			o_rx_done_tick,
-		output 	wire 	[7:0]	o_dout
+		input 	wire 			i_clk,			//clock del sistema
+		input 	wire 			i_reset,			//mismo reset que uart
+		input 	wire 			i_rx,				//dato entrante
+		input 	wire 			i_s_tick,		//tick que viene del baud rate gen
+		output 	reg 			o_rx_done_tick,//indica que el dato en dout es el recibido
+		output 	wire 	[7:0]	o_dout			//cuando rx_done_tick esta en 1, tiene el dato recibido
 	);
 	 
 	//symbolic state declaration
@@ -30,7 +30,7 @@ module uart_rx
 	//body
 	//FSMD state & data registers
 	always @(posedge i_clk, posedge i_reset) //esta bien posedge reset???
-	begin
+	begin //
 		if(i_reset)
 			begin
 				state_reg <= idle;
