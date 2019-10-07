@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-module uart
+	module uart
 	#( //Default settings: 19200 baud, 8 data bits, 1 stop, 2² fifo
 		parameter	DBIT = 8,
 		parameter	SB_TICK = 16,
@@ -8,19 +8,19 @@ module uart
 		parameter	FIFO_W = 2
    )
 	(
-		input 	wire 			i_clk,
-		input 	wire 			i_reset,
-		input 	wire 			i_rd_uart,
-		input		wire 			i_wr_uart,
-		input 	wire			i_rx,
-		input 	wire [7:0] 	i_w_data,
-		output 	wire 			o_tx_full,
-		output	wire 			o_rx_empty,
-		output	wire 			o_tx,
-		output 	wire [7:0] 	o_r_data
+		input 	wire 			i_clk,		//clock del sistema
+		input 	wire 			i_reset,		//algun pulsaor
+		input 	wire 			i_rd_uart,	//
+		input		wire 			i_wr_uart,	//ambos a un pulsador, ver para que se usan
+		input 	wire			i_rx,			//a pc
+		input 	wire [7:0] 	i_w_data,	//datos recibidos por el rx
+		output 	wire 			o_tx_full,	//indica si cola de envio esta llena
+		output	wire 			o_rx_empty,	//indica si cola de recepcion esta vacia
+		output	wire 			o_tx,			//a pc
+		output 	wire [7:0] 	o_r_data		//datos a enviar por el tx
 	);
 	
-	//signals
+	//declaracion de registros/wires
 	wire tick, rx_done_tick, tx_done_tick;
 	wire tx_empty, tx_fifo_not_empty;
 	wire [7:0] tx_fifo_out, rx_data_out;
