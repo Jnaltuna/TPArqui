@@ -15,7 +15,7 @@ module mod_m_counter
 
 reg 	[N-1:0] r_reg;
 wire 	[N-1:0] r_next;
-
+	
 always@(posedge clk, posedge reset)
 begin
 	if (reset)
@@ -33,3 +33,4 @@ assign max_tick = (r_reg==(M-1)) ? 1'b1 : 1'b0;
 
 
 endmodule
+

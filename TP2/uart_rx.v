@@ -92,7 +92,7 @@ begin
 
 				end	else
 					s_next = s_reg + 1;
-		default: // Do nothing?
+		//default: // Do nothing?
 	endcase
 end
 

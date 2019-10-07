@@ -12,31 +12,27 @@ module fifo
 	input 	wire	[B-1:0] 	i_w_data,
 	output 	wire 				o_empty,
 	output 	wire				o_full,
-	output 	wire 	[W-1:0] 	o_r_data
+	output 	wire 	[B-1:0] 	o_r_data
 );
 
 //signals
 reg [B-1:0] array_reg [2**W-1:0];
 reg [W-1:0] w_ptr_reg, w_ptr_next, w_ptr_succ;
 reg [W-1:0] r_ptr_reg, r_ptr_next, r_ptr_succ;
-reg 		full_reg, empty_reg, full_next, empty_next;
+reg full_reg, empty_reg, full_next, empty_next;
 
 wire 		wr_en;
 
 
 //register file write operation
 always @(posedge i_clk)
-begin
-
 	if (wr_en)
 		array_reg [w_ptr_reg] <= i_w_data;
 	
-	//register file read operation
-	assign r_data = array_reg [r_ptr_reg];
-	//write enabled only when FIFO is not full
-	assign wr_en = i_wr & ~full_reg;
-end
-
+//register file read operation
+assign o_r_data = array_reg [r_ptr_reg];
+//write enabled only when FIFO is not full
+assign wr_en = i_wr & ~full_reg;
 
 //fifo control logic
 //register for read and write pointers
@@ -107,6 +103,6 @@ end
 
 //output
 assign o_full 	= 	full_reg;
-assign empty 	= 	empty_reg;
+assign o_empty = 	empty_reg;
 
 endmodule
