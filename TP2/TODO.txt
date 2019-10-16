@@ -1,0 +1,4 @@
+- Ver transmisor, X luego de transmitir.
+- Ver transmisor, envia datos uno atras de otro.
+- Guarda datos al reves.
+- Cambiar loop por alu.

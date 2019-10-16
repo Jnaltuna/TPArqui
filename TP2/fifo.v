@@ -23,7 +23,6 @@ reg full_reg, empty_reg, full_next, empty_next;
 
 wire 		wr_en;
 
-
 //register file write operation
 always @(posedge i_clk)
 	if (wr_en)
@@ -94,10 +93,10 @@ begin
 				w_ptr_next = w_ptr_succ;
 				r_ptr_next = r_ptr_succ;
 			end
-		default: 
-			begin
-				
-			end
+		//default: 
+		//	begin
+		//		
+		//	end
 	endcase
 end
 

@@ -23,6 +23,8 @@ wire tick, rx_done_tick, tx_done_tick;
 wire tx_empty, tx_fifo_not_empty;
 wire [7:0] tx_fifo_out, rx_data_out;
 wire rd_uart,wr_uart;
+wire [7:0] r_data;
+wire [7:0] w_data;
 //wire tx_full, rx_empty, r_data, rd_uart, wr_uart, w_data; //TODO ver estos
 	
 //baud rate generator
@@ -67,7 +69,7 @@ fifo_rx_unit
 	.i_reset									(i_reset),
 	.i_rd										(rd_uart),
 	.i_wr										(rx_done_tick),
-	.i_w_data								(w_data_out),
+	.i_w_data								(rx_data_out), //w_data_out
 	.o_empty									(rx_empty),
 	.o_full									(			),
 	.o_r_data								(r_data)
@@ -119,7 +121,8 @@ dloop
 	.r_data 									(r_data), //datos recibidos en rx
 	.rd_uart 								(rd_uart),//señal para indicar que reciba
 	.wr_uart 								(wr_uart),//señal para indicar que envie
-	.w_data 									(i_w_data) //datos a enviar por tx
+	.w_data 									(w_data), //datos a enviar por tx
+	.i_reset									(i_reset)
 );
 	
 assign tx_fifo_not_empty = ~tx_empty;

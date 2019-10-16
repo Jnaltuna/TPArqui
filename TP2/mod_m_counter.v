@@ -16,16 +16,17 @@ module mod_m_counter
 reg 	[N-1:0] r_reg;
 wire 	[N-1:0] r_next;
 	
-always@(posedge clk, posedge reset)
+always@(posedge clk)
 begin
-	if (reset)
+	if (reset) begin
 		r_reg <= 0;
-	else
+	end else begin
 		r_reg <= r_next;
+	end
 end
 
 //next-state logic
-assign r_next = (r_reg==(M-1)) ? 0: r_reg + 1;
+assign r_next = (r_reg==(M-1)) ? 0 : r_reg + 1;
 
 //output
 assign q = r_reg;
