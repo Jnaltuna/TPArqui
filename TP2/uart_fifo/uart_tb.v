@@ -85,7 +85,7 @@ module uart_tb;
 	
 	always @ (*) begin
 		if(i_reset)
-			trans <= 0'b0;
+			trans <= 1'b0;
 		else
 			trans <= o_tx;
 	end

@@ -26,6 +26,7 @@ wire rd_uart,wr_uart;
 wire [7:0] r_data;
 wire [7:0] w_data;
 //wire tx_full, rx_empty, r_data, rd_uart, wr_uart, w_data; //TODO ver estos
+wire tx_full,rx_empty;
 	
 //baud rate generator
 mod_m_counter
@@ -122,7 +123,9 @@ dloop
 	.rd_uart 								(rd_uart),//señal para indicar que reciba
 	.wr_uart 								(wr_uart),//señal para indicar que envie
 	.w_data 									(w_data), //datos a enviar por tx
-	.i_reset									(i_reset)
+	.i_reset									(i_reset),
+	.i_clk                                        (i_clk),
+	.tx_empty                                  (tx_empty)
 );
 	
 assign tx_fifo_not_empty = ~tx_empty;
