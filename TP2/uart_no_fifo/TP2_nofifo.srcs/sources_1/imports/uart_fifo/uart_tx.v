@@ -7,11 +7,11 @@ module uart_tx
 	(
 		input		wire 			i_clk,
 		input		wire 			i_reset,
-		input		wire 			i_tx_start,
-		input 	wire 			i_s_tick,
-		input 	wire	[7:0] i_din,
-		output 	reg 			o_tx_done_tick,
-		output 	wire 			o_tx
+		input		wire 			i_tx_start, //starts transmitting
+		input      	wire 			i_s_tick,
+		input 	    wire	[7:0]   i_din,
+		output 	    reg 			o_tx_done_tick,
+		output 	    wire 			o_tx
 	);
 	//symbolic state declaration
 	localparam [1:0]
