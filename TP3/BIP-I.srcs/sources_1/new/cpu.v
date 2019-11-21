@@ -19,5 +19,13 @@ module cpu
     output  wire    [DBITS-1:0] o_data_dm    
     );
     
+    control cont
+    (
+    );
+    
+    datapath data
+    (
+    );
+    
     
 endmodule

@@ -14,11 +14,63 @@ module control
     output  wire    [ADDR -1:0]     o_operand,
     output  wire    [1:0]           o_selA,
     output  wire                    o_selB,    
-    output  wire                    o_WrAcc,
-    output  wire                    o_Op,
-    output  wire                    o_WrRam,
-    output  wire                    o_RdRam
+    output  wire                    o_wrAcc,
+    output  wire                    o_op,
+    output  wire                    o_wrRam,
+    output  wire                    o_rdRam
     );
     
+    localparam OPLEN = 5;
+    localparam PCLEN = 11;
+    
+    wire [OPLEN-1 : 0] opcode;
+    wire [ADDR-1 :0] operand;
+    wire en_PC, newPCval, PCval;
+    
+    
+    
+decoder
+#(
+    .OPLEN                          (OPLEN)
+)
+decod
+(
+    .i_opcode                       (opcode),
+    .o_wrPC                         (en_PC),         //add
+    .o_selA                         (o_selA),
+    .o_selB                         (o_selB),    
+    .o_wrAcc                        (o_wrAcc),
+    .o_op                           (o_op),
+    .o_wrRam                        (o_wrRam),
+    .o_rdRam                        (o_rdRam)
+
+); 
+
+pc
+#(
+    .PCLEN                          (PCLEN)
+) 
+pc
+(
+    .i_clk                          (i_clk),
+    .i_rst                          (i_rst),
+    .i_en                           (en_PC),
+    .i_newPCval                     (newPCval),
+    .o_PCval                        (PCval)
+);  
+
+pc_adder 
+#(
+    .PCLEN                          (PCLEN)
+)
+pcadd
+(
+    .i_PCval                        (PCval),
+    .o_newPCval                     (newPCval)
+); 
+
+assign opcode = i_instdata [IBITS-1 +: OPLEN -1]; // view logic
+assign operand = i_instdata [IBITS-1+OPLEN :0]; // view logic
+
     
 endmodule
