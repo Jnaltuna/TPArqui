@@ -18,13 +18,48 @@ module cpu
     output  wire                o_Wr,
     output  wire    [DBITS-1:0] o_data_dm    
     );
+
+    //Declaracion de wires internos
+    wire operand,selB,wrAcc,op;
+    wire [1:0] selA;
     
-    control cont
+    control
+    #(
+        .IBITS                      (IBITS),
+        .ADDR                       (ADDR)
+    )
+     cont
     (
+        .i_clk                      (i_clk),
+        .i_rst                      (i_rst),
+        .i_instdata                 (i_instdata),
+        .o_addr_pm                  (o_addr_pm),
+        .o_operand                  (operand),
+        .o_selA                     (selA),
+        .o_selB                     (selB),    
+        .o_wrAcc                    (wrAcc),
+        .o_op                       (op),
+        .o_wrRam                    (o_Wr),
+        .o_rdRam                    (o_Rd)
     );
     
-    datapath data
+    datapath
+    #(
+        .DBITS                      (DBITS),
+        .ADDR                       (ADDR)
+    ) 
+    data
     (
+        .i_clk                      (i_clk),
+        .i_rst                      (i_rst),
+        .i_data_dm                  (i_data_dm),
+        .i_operand                  (operand),
+        .i_selA                     (selA),
+        .i_selB                     (selB),
+        .i_WrAcc                    (wrAcc),
+        .i_Op                       (op),
+        .o_addr_dm                  (o_addr_dm),
+        .o_data_dm                  (o_data_dm)
     );
     
     
