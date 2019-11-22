@@ -4,24 +4,20 @@ module sig_extender_tb;
 
 	reg	[10:0]	operand;
 	
-	sig_extender
-	#(
-		.NB_OPERAND	(11),
-		.NB_EXTEND	(5)
-	)
-	extender
+	sig_extender extender
 	(
 		.i_operand		(operand),
-		.o_extended		()
+		.o_extendedOp	()
 	);
 
-	initial begin
+	initial 
+	begin
 		
-		operand = 11'd120;
+		operand <= 11'd120;
 		#2
-		operand = 11'd305;
+		operand <= 11'd305;
 		#2
-		operand = 11'd11;
+		operand <= 11'd11;
 
 	end
 endmodule

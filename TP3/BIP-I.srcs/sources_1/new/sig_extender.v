@@ -8,7 +8,7 @@ module sig_extender
 (
     input   wire    [NB_OPERAND-1   :   0]  i_operand,
     
-    output  wire    [NB_EXTEND-1    :   0]  o_extendedOp    
+    output  wire    [NB_OPERAND + NB_EXTEND-1    :   0]  o_extendedOp    
 );
 
 reg [NB_OPERAND+NB_EXTEND-1 : 0] extended;

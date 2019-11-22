@@ -28,10 +28,10 @@ reg  [DBITS-1:0] ACC;
 always @(*) 
 begin
     case(i_selA)
-        2'd0:       mux_A <= i_data_dm;
-        2'd1:       mux_A <= extended_op;
-        2'd2:       mux_A <= au_result;
-        default:    mux_A <= extended_op;
+        2'b00:       mux_A <= i_data_dm;
+        2'b01:       mux_A <= extended_op;
+        2'b10:       mux_A <= au_result;
+        2'b11:       mux_A <= extended_op;
     endcase
 end
 
@@ -43,12 +43,16 @@ begin
     endcase
 end
 
-always @(posedge i_clk) 
+always @(negedge i_clk) 
 begin
-    if(i_WrAcc)
-        ACC <= mux_A;
-    else
-        ACC <= ACC;
+    if(i_rst)
+        ACC <= 0;
+    else begin
+        if(i_WrAcc)
+            ACC <= mux_A;
+        else
+            ACC <= ACC;
+    end
 end
 
 
@@ -57,15 +61,17 @@ sig_extender
     .NB_OPERAND                     (ADDR),
     .NB_EXTEND                      (DBITS-ADDR)
 )
+extender
 (
     .i_operand                      (i_operand),
-    .o_extended                     (extended_op)
+    .o_extendedOp                   (extended_op)
 );
 
 AU
 #(
     .NB_OPERAND                     (DBITS)
 )
+au_unit
 (
     .i_operation                    (i_Op),
     .i_operandA                     (ACC),
