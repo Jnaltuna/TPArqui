@@ -23,9 +23,10 @@ module control
     localparam OPLEN = 5;
     localparam PCLEN = 11;
     
-    wire [OPLEN-1 : 0] opcode;
-    wire [ADDR-1 :0] operand;
-    wire en_PC, newPCval, PCval;
+    reg [OPLEN-1 : 0] opcode;
+    //wire [ADDR-1 :0] operand;
+    wire en_PC; 
+    wire [ADDR-1 :0] newPCval, PCval;
     
     
     
@@ -69,8 +70,14 @@ pcadd
     .o_newPCval                     (newPCval)
 ); 
 
-assign opcode = i_instdata [IBITS-1 +: OPLEN -1]; // view logic
-assign operand = i_instdata [IBITS-1+OPLEN :0]; // view logic
+
+always @ (*)
+begin
+    opcode <= i_instdata [15: 11];
+end
+//assign opcode = i_instdata [IBITS-1 -: OPLEN -1]; // view logic
+assign o_operand = i_instdata [10:0]; // view logic
+assign o_addr_pm = PCval;
 
     
 endmodule
