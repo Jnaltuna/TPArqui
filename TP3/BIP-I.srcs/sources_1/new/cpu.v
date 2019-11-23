@@ -20,8 +20,9 @@ module cpu
     );
 
     //Declaracion de wires internos
-    wire operand,selB,wrAcc,op;
+    wire selB,wrAcc,op;
     wire [1:0] selA;
+    wire [10:0] operand;
     
     control
     #(
