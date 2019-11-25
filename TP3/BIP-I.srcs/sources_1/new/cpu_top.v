@@ -1,15 +1,24 @@
 `timescale 1ns / 1ps
 
 module cpu_top
+#(
+    parameter ADDR = 11,
+    parameter DBITS = 16
+)
 (
     input   wire        i_clk,
     input   wire        i_rst,
-    output  wire        led //remove after
+    
+    output wire [DBITS-1:0] led
+    
+    //output  wire [ADDR-1:0] o_pc,
+    //output  wire [DBITS-1:0] o_acc,
+    //output  wire [DBITS-1:0] o_inst
+    
 );
 
-localparam DBITS = 16;
 localparam IBITS = 16;
-localparam ADDR  = 11;
+
 
 wire [IBITS-1:0] instdata;
 wire [DBITS-1:0] i_data_dm, o_data_dm;
@@ -17,13 +26,7 @@ wire [ADDR-1:0] addr_pm,addr_dm;
 wire wr_dm; //TODO: view if we need to do something with Rd
 reg [IBITS-1:0] i_data_pm;
 reg wr_pm;
-
-reg led_reg;//remove
-always@(posedge i_clk)
-begin
-    led_reg <= 1'b1;
-end
-assign led = led_reg;//remove
+reg [DBITS-1:0] leds;
     
 cpu
 #(
@@ -67,4 +70,19 @@ begin
     i_data_pm <= 16'b0000000000000000;
     wr_pm <= 1'b0;
 end
+
+always @(posedge i_clk)
+begin
+    if(instdata == 16'b0000000000000000)
+       leds <= o_data_dm;
+    else
+       leds <= 16'b0000000000000000; 
+end
+
+assign led = leds;
+
+//assign o_pc = addr_pm;
+//assign o_acc = o_data_dm;
+//assign o_inst = instdata;
+
 endmodule

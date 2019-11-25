@@ -17,7 +17,7 @@ module cpu
     output  wire                o_Rd,
     output  wire                o_Wr,
     output  wire    [DBITS-1:0] o_data_dm    
-    );
+);
 
     //Declaracion de wires internos
     wire selB,wrAcc,op;
