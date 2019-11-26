@@ -92,7 +92,9 @@ dloop
 //used for testing alu output
 always @ (posedge i_clk)
 begin
-    if(tx_start)
+    if(i_reset)
+        res <= 8'b0;
+    else if(tx_start)
         res <= tx_data_in;
 end
 
