@@ -43,7 +43,7 @@ begin
     endcase
 end
 
-always @(negedge i_clk) 
+always @(posedge i_clk) 
 begin
     if(i_rst)
         ACC <= 0;

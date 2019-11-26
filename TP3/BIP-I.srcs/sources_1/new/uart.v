@@ -13,9 +13,10 @@ module uart
 	input 	wire 			i_clk,		    //clock del sistema
 	input 	wire 			i_reset,		//algun pulsaor
 	input 	wire			i_rx,			//a pc
+	input   wire            i_sw,
 	
 	output	wire 			o_tx,	        //a pc
-	output  wire [7:0]      led             //LEDs to test result before TX
+	output  wire [15:0]      led             //LEDs to test result before TX
 );
 
 //declaracion de registros/wires
@@ -23,7 +24,7 @@ wire tick, rx_done_tick, tx_done_tick;
 wire [7:0] rx_data_out; //data received 
 wire [7:0] tx_data_in;  //data to be sent
 wire tx_start;          //used to start transmission
-reg [7:0] res;          //store result to display on LEDs
+//reg [15:0] res;          //store result to display on LEDs
 	
 //baud rate generator
 mod_m_counter
@@ -85,19 +86,21 @@ dloop
     .i_rx_done                                  (rx_done_tick), //rx valid tick
     .i_tx_done                                  (tx_done_tick), //tx valid tick
     .o_tx_data                                  (tx_data_in),   //data tx lane
-    .o_tx_start                                 (tx_start)      
+    .o_tx_start                                 (tx_start),  
+    .o_to_led                                   (led),   
+    .i_sw                                       (i_sw) 
     
 );
 
 //used for testing alu output
-always @ (posedge i_clk)
-begin
-    if(i_reset)
-        res <= 8'b0;
-    else if(tx_start)
-        res <= tx_data_in;
-end
+//always @ (posedge i_clk)
+//begin
+//    if(i_reset)
+//        res <= 15'b0;
+//    else if(tx_start)
+//        res <= tx_data_in;
+//end
 
-assign led = res;
+//assign led = res;
 	
 endmodule

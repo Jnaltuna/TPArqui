@@ -12,6 +12,8 @@ module uart_tb;
 	wire o_tx;
 	
 	reg trans;
+	reg i_sw;
+	wire [15:0] led;
 
 	// Instantiate the Unit Under Test (UUT)
 	uart 
@@ -22,7 +24,9 @@ module uart_tb;
 		.i_clk(i_clk), 
 		.i_reset(i_reset), 
 		.i_rx(i_rx), 
-		.o_tx(o_tx)
+		.o_tx(o_tx),
+		.i_sw(i_sw),
+		.led(led)
 	);
 
 	initial begin
@@ -53,6 +57,12 @@ module uart_tb;
 		i_rx = 1'b0;
 		#160 //stop
 		i_rx = 1'b1; 
+		
+		#200
+		i_sw = 1'b0;
+		
+		#200
+		i_sw = 1'b1;
 		
 	end
 	

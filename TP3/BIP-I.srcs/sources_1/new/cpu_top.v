@@ -6,10 +6,12 @@ module cpu_top
     parameter DBITS = 16
 )
 (
-    input   wire        i_clk,
-    input   wire        i_rst,
+    input   wire                i_clk,
+    input   wire                i_rst,
+    input   wire    [2:0]       i_sw,
     
-    output wire [DBITS-1:0] led
+    //output  wire [DBITS-1:0]    o_acc,
+    output  wire    [DBITS-1:0] led
     
     //output  wire [ADDR-1:0] o_pc,
     //output  wire [DBITS-1:0] o_acc,
@@ -26,7 +28,9 @@ wire [ADDR-1:0] addr_pm,addr_dm;
 wire wr_dm; //TODO: view if we need to do something with Rd
 reg [IBITS-1:0] i_data_pm;
 reg wr_pm;
-reg [DBITS-1:0] leds;
+reg [DBITS-1:0] acc_reg;
+reg [DBITS-1:0] led_reg;
+reg [ADDR-1:0] clock_count;
     
 cpu
 #(
@@ -49,7 +53,7 @@ cpu
     
 data_memory dm
 (
-    .clka               (i_clk),
+    .clka               (~i_clk),
     .wea                (wr_dm),
     .addra              (addr_dm),
     .dina               (o_data_dm),
@@ -74,12 +78,48 @@ end
 always @(posedge i_clk)
 begin
     if(instdata == 16'b0000000000000000)
-       leds <= o_data_dm;
+       acc_reg <= o_data_dm;
     else
-       leds <= 16'b0000000000000000; 
+       acc_reg <= 16'b0000000000000000; 
 end
 
-assign led = leds;
+//always @(posedge i_clk)
+//begin
+//    if(i_sw) begin //envio PC
+//        led_reg <= {5'b10000,addr_pm};
+//    end else begin //envio contador de clock
+//        led_reg <= {5'b00000,clock_count};
+//    end   
+//end
+
+always @(posedge i_clk)
+begin
+    case(i_sw)
+        3'b100:
+            led_reg <= o_data_dm;
+        3'b010:
+            led_reg <= {5'b10000,addr_pm};
+        3'b001:
+            led_reg <= {5'b00000,clock_count};
+        default:
+            led_reg <= 16'd0;
+    endcase
+end
+
+always @(negedge i_clk)
+begin
+    if(i_rst) begin
+        clock_count <= 11'b00000000000;
+    end else begin
+        if(instdata != 16'b0000000000000000)
+            clock_count <= clock_count + 1;
+        else
+            clock_count <= clock_count;
+    end
+end
+
+assign led = led_reg;
+//assign o_acc = acc_reg;
 
 //assign o_pc = addr_pm;
 //assign o_acc = o_data_dm;
